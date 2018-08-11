@@ -10,6 +10,7 @@
 
 ### other ###
 logs/*
+output/*
 
 # Remove previous ipynb_checkpoints
 #   git rm -r .ipynb_checkpoints/
