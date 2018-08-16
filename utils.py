@@ -72,7 +72,7 @@ def conf_matrix(Y_true, Y_pred, class_conversion, model_name, save = False):
     if save:
         fig.savefig('{}.png'.format(outdir(model_name)))
         np.divide(cm, np.sum(cm, axis=1)).round(2)
-        cla = classification_report(Y_true, Y_pred, target_names=class_conversion.values())
+        cla = classification_report(Y_true, Y_pred, target_names=class_conversion.values(), digits=3)
         with open('{}.txt'.format(outdir(model_name)), 'w') as text_file:
             text_file.write(cla)
 

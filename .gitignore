@@ -11,6 +11,7 @@
 ### other ###
 logs/*
 output/*
+server-out/*
 dataset-orig
 *.pyc
 *.sh
