@@ -8,7 +8,7 @@ Download the original dataset at  http://www.kn-s.dlr.de/activity/ and place it 
 
 ## Project structure
 
-* [001-data-exploration.ipynb](https://github.com/damnko/har-convolutional-neural-networks/blob/master/001-data-exploration.ipynb) contains the code to convert the original dataset in Pandas dataframe and save the output in a `h5`
+* [001-data-exploration.ipynb](https://github.com/damnko/har-convolutional-neural-networks/blob/master/001-data-exploration.ipynb) contains the code to convert the original dataset in Pandas dataframe and save the output in a `.h5` file
 * [002-ml.ipynb](https://github.com/damnko/har-convolutional-neural-networks/blob/master/002-ml.ipynb) contains the code to select the datasets and models to train. The model specifications are in the `./models` folder. The python version of this notebook is saved in `ml.py`
 * `generate-plots.ipynb` generates `eps` plots from `¢sv` files exported from Tensorboard. Those files were used in the research paper `project-paper.pdf`
 * `ae-stacked.py` contains the code of the stacked denoising convolutional autoencoder
