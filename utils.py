@@ -7,6 +7,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 from matplotlib import pyplot
 import seaborn as sn
 import time
+import pandas as pd
 
 ##################
 ##    UTILS     ##
@@ -75,14 +76,24 @@ def conf_matrix(Y_true, Y_pred, class_conversion, model_name, save = False):
         cla = classification_report(Y_true, Y_pred, target_names=class_conversion.values(), digits=3)
         with open('{}.txt'.format(outdir(model_name)), 'w') as text_file:
             text_file.write(cla)
+        # save text confusion matrix
+        conf_matrix_df = conf_matrix_text(Y_true, Y_pred, class_conversion.values())
+        conf_matrix_df.to_csv('{}.csv'.format(outdir(model_name)), sep=',')
+        
+
+def conf_matrix_text(Y_true, Y_pred, classnames):
+    classnames = pd.Series(list(classnames))
+    Y_true = pd.Series(classnames[Y_true].tolist(), name='True')
+    Y_pred = pd.Series(classnames[Y_pred].tolist(), name='Pred')
+    df_confusion = pd.crosstab(Y_true, Y_pred, rownames=['True'], colnames=['Pred'], margins=True)
+    df_conf_norm = df_confusion / df_confusion.sum(axis=1)
+    return df_conf_norm
 
 def export_model(model, out_name):
     # serialize model to JSON
     model_json = model.to_json()
     with open('{}-model.json'.format(outdir(out_name)), 'w') as json_file:
         json_file.write(model_json)
-    # serialize weights to HDF5
-    model.save_weights('{}-weights.h5'.format(outdir(out_name)))
             
 # some custom measures to be computed at each epoch for the models
 def f1(y_true, y_pred):

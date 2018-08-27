@@ -13,6 +13,7 @@ logs/*
 output/*
 server-out/*
 dataset-orig
+dataset
 *.pyc
 *.sh
 

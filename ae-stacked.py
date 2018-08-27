@@ -15,7 +15,7 @@ from sklearn.metrics import classification_report
 from keras import backend as K
 from keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint
 from keras import layers, optimizers
-from keras.layers import Input, Dense, Activation, BatchNormalization, Flatten, Conv2D, Conv1D, MaxPooling1D, MaxPooling2D, Dropout, ELU, UpSampling2D
+from keras.layers import Input, Dense, Activation, BatchNormalization, Flatten, Conv2D, Conv1D, MaxPooling1D, MaxPooling2D, Dropout, ELU, UpSampling2D, Conv2DTranspose
 from keras.models import Model, Sequential, model_from_json
 
 sn.set(style="white", context="talk")
@@ -26,8 +26,19 @@ from models import m_1d, m_1d2d, m_1d2d_01, m_3d
 # needed to work on GPU
 K.set_image_data_format('channels_first')
 
-def gen_noise(shape, scale=0.05):
-    return np.random.normal(loc=0, scale=0.05, size=shape)
+def gen_noise(shape, x, zero_data = False, scale=0.15):
+    if not zero_data:
+        return np.random.normal(loc=0, scale=scale, size=shape)
+    # zero out some values
+    zeros = np.zeros(shape)
+    unif_n = np.arange(x.size)/(x.size-1)
+    np.random.shuffle(unif_n)
+    # percentage of frames to keep, 1-keep will be set to zero
+    keep = 0.97
+    mask = (unif_n>keep).reshape(shape)
+    x[mask] = zeros[mask]
+    # -x will zero out 1-keep % of elements
+    return -x
 
 def callbacks(name, tensorboard = False):
     callbacks = [
@@ -49,22 +60,24 @@ class_conversion = {
 }
 
 general_conf = {
+    'model_name': 'ae-stacked-long-gaus',
     'debug': False,
     'prod': True,
     'export_models': True,
+    'zero_type_noise': False,
     'batch_size': 64,
     'iterations': 400,
     'datasets': [
-        '',
-        #'-augmented',
+        #'',
+        '-augmented',
         #'-with-trans'
     ]
 }
 
 X_train, X_test, Y_train, Y_test = load_dataset('')
 
-X_train_noise = X_train + gen_noise(X_train.shape)
-X_test_noise = X_test + gen_noise(X_test.shape)
+X_train_noise = X_train + gen_noise(X_train.shape, X_train, general_conf['zero_type_noise'])
+X_test_noise = X_test + gen_noise(X_test.shape, X_test, general_conf['zero_type_noise'])
 
 # channel first reshaping
 X_train_4ch = X_train.reshape(X_train.shape[0], 1, X_train.shape[1], X_train.shape[2])
@@ -79,15 +92,16 @@ input_shape = [X_train_4ch.shape[1], X_train_4ch.shape[2], X_train_4ch.shape[3]]
 #### FIRST AUTOENCODER ####
 
 X_input = Input(input_shape)
-x = Conv2D(32, (4,1), activation='relu', padding='same')(X_input)
-x = Conv2D(64, (3,2), activation='relu', padding='same')(x)
+x = Conv2D(32, (5,1), activation='relu')(X_input)
+x = Conv2D(64, (7,1), activation='relu')(x)
+x = Conv2D(128, (3,3), activation='relu')(x)
 x = MaxPooling2D(name='encoded1')(x)
 ae1_enc_shape = x.shape.as_list()
-
-x = Conv2D(64, (3,2), activation='relu', padding='same')(x)
+print(ae1_enc_shape)
 x = UpSampling2D()(x)
-x = Conv2D(32, (4,1), activation='relu', padding='same')(x)
-x = Conv2D(1, (3,3), padding='same')(x)
+x = Conv2DTranspose(64, (3,3), activation='relu')(x)
+x = Conv2DTranspose(32, (7,1), activation='relu')(x)
+x = Conv2DTranspose(1, (5,1))(x)
 
 ae1 = Model(input=X_input, output=x, name='ae1')
 ae1.compile(loss='mse', optimizer='rmsprop')
@@ -95,16 +109,15 @@ ae1.compile(loss='mse', optimizer='rmsprop')
 ae1.summary()
 
 # train the model, if not already trained
-if not Path("weights-ae1.h5").is_file():
-    print('doing the training')
+if not Path("weights-ae1-long-gaus.h5").is_file():
     history = ae1.fit(x = X_train_noise_4ch, y = X_train_4ch,
                         epochs=general_conf['iterations'],
                         batch_size=general_conf['batch_size'],
-                        callbacks=callbacks('ae1'),
+                        callbacks=callbacks('ae1-long-gaus', True),
                         validation_data=(X_test_noise_4ch, X_test_4ch))
 
 # load best weights
-ae1.load_weights('weights-ae1.h5')
+ae1.load_weights('weights-ae1-long-gaus.h5')
 
 
 # get the output of the encoded layer
@@ -125,18 +138,17 @@ model.layers.pop()
 #### SECOND AUTOENCODER ####
 
 # this is the input of the second autoencoder
-ae2_input = ae1_encoder.predict(X_test_noise_4ch)
+ae2_input = ae1_encoder.predict(X_train_4ch)
 
 # input shape is the output of the encoder part of ae1
 X_input1 = Input(ae1_enc_shape[1:])
-x1 = Conv2D(96, (3,3), activation='relu', padding='same')(X_input1)
-x1 = Conv2D(128, (2,2), activation='relu', padding='same')(x1)
-x1 = MaxPooling2D((2,3), name='encoded2')(x1)
+x1 = Conv2D(256, (3,3), activation='relu', padding='same')(X_input1)
+x1 = Conv2D(512, (2,2), activation='relu', padding='same')(x1)
+x1 = MaxPooling2D((2,2), name='encoded2')(x1)
 
-x1 = UpSampling2D((2,3))(x1)
-x1 = Conv2D(128, (2,2), activation='relu', padding='same')(x1)
-x1 = Conv2D(96, (3,3), activation='relu', padding='same')(x1)
-x1 = Conv2D(64, (1,1), padding='same')(x1)
+x1 = UpSampling2D((2,2))(x1)
+x1 = Conv2D(256, (2,2), activation='relu', padding='same')(x1)
+x1 = Conv2D(128, (3,3), activation='relu', padding='same')(x1)
 
 ae2 = Model(X_input1, x1, name='ae2')
 ae2.compile(loss='mse', optimizer='rmsprop')
@@ -145,19 +157,19 @@ print(ae2.summary())
 # split train and test
 qnt_train = round(ae2_input.shape[0] * 0.8)
 train = ae2_input[:qnt_train]
-train_noise = train + gen_noise(train.shape)
+train_noise = train + gen_noise(train.shape, train, general_conf['zero_type_noise'])
 test = ae2_input[qnt_train:]
-test_noise = test + gen_noise(test.shape)
+test_noise = test + gen_noise(test.shape, test, general_conf['zero_type_noise'])
 
 # train should be added with some noise
-if not Path("weights-ae2.h5").is_file():
+if not Path("weights-ae2-long-gaus.h5").is_file():
     history = ae2.fit(x = train_noise, y = train,
                         epochs=general_conf['iterations'],
                         batch_size=general_conf['batch_size'],
-                        callbacks=callbacks('ae2'),
+                        callbacks=callbacks('ae2-long-gaus', True),
                         validation_data=(test_noise, test))
 
-ae2.load_weights('weights-ae2.h5')
+ae2.load_weights('weights-ae2-long-gaus.h5')
 
 
 ######################
@@ -179,14 +191,14 @@ for layer in full_model.layers[:5]:
 
 full_model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy', f1])
 
-if not Path("weights-ae-stacked.h5").is_file():
+if not Path("weights-ae-stacked-long-gaus.h5").is_file():
     full_model.fit(x = X_train_4ch, y = Y_train,
                         epochs=general_conf['iterations'],
                         batch_size=general_conf['batch_size'],
-                        callbacks=callbacks('ae-stacked', True),
+                        callbacks=callbacks('ae-stacked-long-gaus', True),
                         validation_data=(X_test_4ch, Y_test))
 
-full_model.load_weights('weights-ae-stacked.h5')
+full_model.load_weights('weights-ae-stacked-long-gaus.h5')
 
 ##########################
 #### CHECKING RESULTS ####
@@ -201,6 +213,6 @@ predictions = full_model.predict(X_test_4ch)
 Y_pred = ohe_to_label(predictions)
 Y_true = ohe_to_label(Y_test)
 
-conf_matrix(Y_true, Y_pred, class_conversion, 'ae-stacked', save = True)
+conf_matrix(Y_true, Y_pred, class_conversion, general_conf['model_name'], save = True)
 
-export_model(full_model, 'ae-stacked')
+export_model(full_model, general_conf['model_name'])

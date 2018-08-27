@@ -19,6 +19,7 @@ from keras.models import Model, Sequential, model_from_json
 from keras.optimizers import SGD
 
 sn.set(style="white", context="talk")
+sn.set(style="whitegrid")
 
 from utils import terminate, outdir, load_dataset, show_stats, ohe_to_label, conf_matrix, export_model, f1
 from models import m_1d, m_1d2d, m_1d2d_01, m_3d
@@ -41,8 +42,8 @@ general_conf = {
 
 X_train, X_test, Y_train, Y_test = load_dataset('')
 
-X_train_noise = X_train + np.random.normal(loc=0, scale=0.05, size=X_train.shape)
-X_test_noise = X_test + np.random.normal(loc=0, scale=0.05, size=X_test.shape)
+X_train_noise = X_train + np.random.normal(loc=0, scale=0.15, size=X_train.shape)
+X_test_noise = X_test + np.random.normal(loc=0, scale=0.15, size=X_test.shape)
 
 # channel first
 X_train_4ch = X_train.reshape(X_train.shape[0], 1, X_train.shape[1], X_train.shape[2])
@@ -54,6 +55,7 @@ X_test_noise_4ch = X_test_noise.reshape(X_test_noise.shape[0], 1, X_test_noise.s
 input_shape = [X_train_4ch.shape[1], X_train_4ch.shape[2], X_train_4ch.shape[3]]
 
 X_input = Input(input_shape)
+"""
 #x = BatchNormalization(axis = 2, name='bn')(X_input)
 x = Conv2D(32, (4,1), activation='relu', padding='same', name='enc0')(X_input)
 #x = BatchNormalization(axis = 2, name='bn1')(x)
@@ -66,7 +68,33 @@ x = UpSampling2D(name='up1')(x)
 x = Conv2D(32, (4,1), activation='relu', padding='same', name='dec2')(x)
 #x = BatchNormalization(axis = 2, name='bn3')(x)
 x = Conv2D(1, (3,3), name='decoded', padding='same')(x)
+"""
 
+# long version is
+
+x = Conv2D(32, (5,1), activation='relu')(X_input)
+x = Conv2D(64, (7,1), activation='relu')(x)
+x = Conv2D(128, (3,3), activation='relu')(x)
+x = MaxPooling2D(name='encoded1')(x)
+ae1_enc_shape = x.shape.as_list()
+
+x = UpSampling2D()(x)
+x = Conv2DTranspose(64, (3,3), activation='relu')(x)
+x = Conv2DTranspose(32, (7,1), activation='relu')(x)
+x = Conv2DTranspose(1, (5,1))(x)
+
+
+# short version is
+"""
+x = Conv2D(32, (5,1), activation='relu')(X_input)
+x = Conv2D(64, (3,3), activation='relu')(x)
+x = MaxPooling2D(name='encoded1')(x)
+ae1_enc_shape = x.shape.as_list()
+
+x = UpSampling2D()(x)
+x = Conv2DTranspose(32, (3,3), activation='relu')(x)
+x = Conv2DTranspose(1, (5,1))(x)
+"""
 
 # the original was
 """
@@ -93,16 +121,25 @@ model.summary()
 history = model.fit(x = X_train_noise_4ch, y = X_train_4ch,
                     epochs=200,
                     batch_size=64,
-                    callbacks=[EarlyStopping(patience=15, monitor='val_loss', min_delta=0, mode='min')],
+                    callbacks=[
+                        EarlyStopping(patience=15, monitor='val_loss', min_delta=0, mode='min'),
+                        ModelCheckpoint('best-weights.h5', monitor='val_loss', save_best_only=True, save_weights_only=True)
+                    ],
                     validation_data=(X_test_noise_4ch, X_test_4ch))
 
+model.load_weights('best-weights.h5')
 prediction = model.predict(X_test_noise_4ch)
 
 ints = [139,148,155,215,226,305,317,320,335,379,394,435,449,469,579,601,621,704,707,739,833,856,883,891,994]
 for i in ints:
     prediction_res = prediction[i, 0,:,0]
     # plot original and reconstructed
-    fig, (ax1) = plt.subplots(1, 1, figsize=(15, 4))
-    ax1.plot(X_test_4ch[i, 0, :, 0], color='red')
-    ax1.plot(prediction_res, color='green')
+    fig, (ax1) = plt.subplots(1, 1, figsize=(10, 4))
+    x = np.arange(len(X_test_4ch[i, 0, :, 0]))
+    sn.lineplot(x, X_test_noise_4ch[i, 0, :, 0], color='red', alpha=0.7, label='Noisy', ax=ax1)
+    sn.lineplot(x, X_test_4ch[i, 0, :, 0], color='red', label='Test', ax=ax1)
+    sn.lineplot(x, prediction_res, color='green', label='Rebuilt', ax=ax1)
+    ax1.lines[0].set_linestyle("--")
+    ax1.legend(loc='upper right')
     fig.savefig('{}.png'.format(i))
+    fig.savefig('{}.eps'.format(i), format='eps', dpi=1000)
