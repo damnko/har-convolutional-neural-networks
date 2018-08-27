@@ -1,0 +1,24 @@
+% !TEX root = template.tex
+
+\section{Introduction}
+\label{sec:introduction}
+
+In recent years, there has been substancial effort on employing wearable devices for HAR. Due to their small size, portability, and high processing power, IMUs are widely used for complex motion analysis: usage in sports training, videogames, as well as medical applications such as analysis of patients' health based on gait abnormalities and fall detection \cite{Yamada-2012}, smart assistive technologies, such as in smart homes \cite{Parisa-2009}, in rehabilitation \cite{Shyamal-2012}, in health support \cite{Akin-2010}, in skill assessment \cite{Matthias-2013} or in industrial settings \cite{Thomas-2008}.
+HAR has been studied by using computer vision approaches \cite{Hueihan-2013,Ferda-2013}, IMUs approaches \cite{jian-2015,nils-2016,Valarezo-2017} and hybrid approaches using feeds from both inertial sensors and cameras \cite{2017-mfi-actionrecognition}.
+\mbox{On-body} sensors enjoy the merits of information privacy: the signals they acquire are target specific and do not reveal any personal information on the specific user nor other nontarget subjects in the scene. Moreover this allows activity recognition regardless of the location of the user, which wouldn't be possible in a \mbox{fixed-camera} setup.
+A typical HAR system is composed of two key elements: one or more smart sensor and a pattern recognition system. With IMUs, human movements are translated into time series information of acceleration via accelerometer and angles via gyroscope. Although multiple sensors can be used in order to improve the accuracy of the method, as in \cite{Grzezick-2017}, this approach is less practical due to the use of multiple sensors. This study focuses classifying activities on data recorded by a single IMU sensor places on the belt of the subjects. \par
+The goal of this paper is twofold: to improve the classification accuracy of previous related works and decrease reliance on human engineered features in order to address increasingly complex recognition problems.
+HAR approaches with manual feature extraction \cite{base-paper} as well as automatic \cite{jian-2015, nils-2016, Valarezo-2017} have already been proposed, however none of them succed in describing and comparing in a systematic and detailed way the training process for deep, convolutional, and stacked convolutional autoencoder models. \par
+Implementing an effective HAR system using only a single sensor is still a technical challenge. For this reason I experimented with different machine learning approaches: convolutional neural networks (CNNs), 50 layers deep CNNs, stacked denoising autoencoders, for classification of 7 activities.
+A key aspect when using convolutions is whether to convolve only along the time dimension. This paper shows that best results are achieved when convolving first along the time dimension and then considering the cross correlation between multiple sensor data.
+I also experimented with some data augmentation techniques, which gave an increased accuracy on underrepresented classes.\par
+
+This paper contributes to the current research material in numerous ways:
+\begin{itemize}
+\item by exploring in depth novel techniques such as stacked denoising autoencoders and deep CNNs which has been gaining a lot of traction is numerous fields
+\item by proposing effective task dependent and \mbox{non-handcrafted} features extraction techniques. These features also own more discriminative power, since the CNN can be trained under the supervision of output labels
+\item by exploring two data augmentation techniques which can improve the classification accuracy of specific classes
+\item by releasing the open source code, which can be used as starting point for future developments
+\end{itemize}
+
+The structure of this paper is organized as follows: \secref{sec:related_work} describes some related works. \secref{sec:processing_architecture} my proposed pipeline. \secref{sec:signals_features} the input data and signal processing, \secref{sec:learning_framework} present an in depth description of the learning framework. Finally, in \secref{sec:results}, the experimental results are presented.

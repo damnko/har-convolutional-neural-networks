@@ -1,0 +1,91 @@
+\documentclass[10pt, conference, letterpaper]{IEEEtran}
+
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[ansinew]{inputenc}
+%\usepackage{xcolor}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{import}
+\usepackage{multirow}
+\usepackage{cite}
+\usepackage[export]{adjustbox}
+\usepackage{breqn}
+\usepackage{mathrsfs}
+\usepackage{acronym}
+\usepackage[keeplastbox]{flushend}
+\usepackage{setspace}
+\usepackage{stackengine}
+\usepackage{wrapfig}
+
+\renewcommand{\thetable}{\arabic{table}}
+\renewcommand{\thesubtable}{\alph{subtable}}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\def\delequal{\mathrel{\ensurestackMath{\stackon[1pt]{=}{\scriptscriptstyle\Delta}}}}
+
+\graphicspath{{./figures/}}
+\setlength{\belowcaptionskip}{0mm}
+\setlength{\textfloatsep}{8pt}
+
+\newcommand{\eq}[1]{Eq.~\eqref{#1}}
+\newcommand{\fig}[1]{Fig.~\ref{#1}}
+\newcommand{\tab}[1]{Tab.~\ref{#1}}
+\newcommand{\secref}[1]{Section~\ref{#1}}
+
+\newcommand\MR[1]{\textcolor{blue}{#1}}
+\newcommand\red[1]{\textcolor{red}{#1}}
+
+%\renewcommand{\baselinestretch}{0.98}
+% \renewcommand{\bottomfraction}{0.8}
+% \setlength{\abovecaptionskip}{0pt}
+\setlength{\columnsep}{0.2in}
+
+% \IEEEoverridecommandlockouts\IEEEpubid{\makebox[\columnwidth]{PUT COPYRIGHT NOTICE HERE \hfill} \hspace{\columnsep}\makebox[\columnwidth]{ }} 
+
+\title{Human Activity Recognition: a comparison of different convolutional neural network architectures}
+
+\author{Damnko$^\dag$
+\thanks{$^\dag$Name Surname: email-address}
+}
+
+\IEEEoverridecommandlockouts
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Human body motion analysis based on wearable inertial measurement units (IMUs) has been receiving a lot of attention in recent years. This is due to the significant role in both the scientific and industrial communities, with uses that span from mobile health systems to sports and human computer interaction. Human Activity Recognition (HAR) system with high recognition accuracy using only a single sensor is still a technical challenge. In this paper I explore both supervised and partially supervised approaches using convolutional, deep convolutional and denoising autoencoders approaches. The goal of this paper is to enhance on the classification accuracy of previous related works and decrease reliance on human engineered features. Since the raw IMU data is composed of time series, it is split using a running window approach and segments of roughly one second of data are fed to the neural networks. The above approaches are tested with two different variations of the original dataset, obtained with data augmentation approaches, to compensate the disparity in the representation of the different classes. The dataset contains measurements of one single IMU sensor positioned in the belt of different users performing 7 actions: \textit{\textbf{running, jumping, walking, falling, sitting, standing, lying}}. The results show that the best \mbox{CNN-based} HAR system achieved an \mbox{F1-Score} of 0.972. The worst represented class, falling, with just 4 minutes of recorded data, has an F1-Score of 0.919.
+\end{abstract}
+
+\IEEEkeywords
+Neural networks, machine learning, denoising autoencoders, convolutional neural network, human activity recognition, inertial sensors
+\endIEEEkeywords
+
+
+\input{intro}
+
+\input{related}
+
+\input{model}
+
+\input{results}
+
+\input{conclusions}
+
+\bibliography{biblio}
+\bibliographystyle{ieeetr}
+
+\end{document}
+
+

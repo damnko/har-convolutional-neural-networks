@@ -1,0 +1,138 @@
+\begin{thebibliography}{10}
+
+\bibitem{Yamada-2012}
+M.~Yamada, T.~Aoyama, and S.~M. et~al., ``Objective assessment of abnormal gait
+  in patients with rheumatoid arthritis using a smartphone,'' {\em {Rheumatol
+  Int}}, vol.~32, pp.~3869--3874, Dec. 2012.
+
+\bibitem{Parisa-2009}
+P.~Rashidi and D.~J. Cook, ``Keeping the resident in the loop: Adapting the
+  smart home to the user,'' {\em {IEEE Transactions on Systems, Man, and
+  Cybernetics - Part A: Systems and Humans}}, vol.~39, pp.~949--959, Sept.
+  2009.
+
+\bibitem{Shyamal-2012}
+S.~Patel, H.~Park, P.~Bonato, L.~Chan, and M.~Rodgers, ``A review of wearable
+  sensors and systems with application in rehabilitation,'' {\em {Journal of
+  NeuroEngineering and Rehabilitation}}, vol.~21, Apr. 2012.
+
+\bibitem{Akin-2010}
+A.~Avci, S.~Bosch, M.~Marin-Perianu, R.~Marin-Perianu, and P.~Havinga,
+  ``{Activity Recognition Using Inertial Sensing for Healthcare, Wellbeing and
+  Sports Applications: A Survey},'' in {\em {23th International Conference on
+  Architecture of Computing Systems}}, ({Hannover, Germany}), Feb. 2010.
+
+\bibitem{Matthias-2013}
+M.~Kranz, A.~Moller, N.~Hammerla, S.~Diewald, T.~Plotz, P.~Olivier, and
+  L.~Roalter, ``The mobile fitness coach: Towards individualized skill
+  assessment using personalized mobile devices,'' {\em {Pervasive and Mobile
+  Computing}}, vol.~9, pp.~203--215, Apr. 2013.
+
+\bibitem{Thomas-2008}
+T.~Stiefmeier, D.~Roggen, G.~Ogris, P.~Lukowicz, and G.~Troster, ``Wearable
+  activity tracking in car manufacturing,'' {\em {IEEE Pervasive Computing}},
+  vol.~7, pp.~42--50, Apr. 2008.
+
+\bibitem{Hueihan-2013}
+H.~Jhuang, J.~Gall, S.~Zuffi, C.~Schmid, and M.~J. Black, ``{Towards
+  Understanding Action Recognition},'' in {\em {IEEE International Conference
+  on Computer Vision}}, ({Sydney, NSW, Australia}), Dec. 2013.
+
+\bibitem{Ferda-2013}
+F.~Ofli, R.~Chaudhry, G.~Kurillo, R.~Vidal, and R.~Bajcsy, ``{Berkeley MHAD: A
+  comprehensive Multimodal Human Action Database},'' in {\em {IEEE Workshop on
+  Applications of Computer Vision}}, ({Clearwater Beach, FL, United States}),
+  Jan. 2013.
+
+\bibitem{jian-2015}
+J.~B. Yang, M.~N. Nguyen, P.~P. San, X.~L. Li, and S.~Krishnaswamy, ``{Deep
+  convolutional neural networks on multichannel time series for human activity
+  recognition},'' in {\em {IJCAI'15 Proceedings of the 24th International
+  Conference on Artificial Intelligence}}, ({Buenos Aires, Argentina}), July
+  2015.
+
+\bibitem{nils-2016}
+N.~Y. Hammerla, S.~Halloran, and T.~Plotz, ``{Deep, Convolutional, and
+  Recurrent Models for Human Activity Recognition Using Wearables},'' in {\em
+  {Proceedings of the Twenty-Fifth International Joint Conference on Artificial
+  Intelligence (IJCAI)}}, ({New York, New York, USA}), Apr. 2016.
+
+\bibitem{Valarezo-2017}
+E.~Valarezo, R.~Patricio, M.~J. Park, G.~Geon, Y.~T. Kim, P.~M, A.~antari
+  Mugahed, A.~masni Mohammed, and T.~Kim, ``Human activity recognition using a
+  single wrist imu sensor via deep learning convolutional and recurrent neural
+  nets,'' {\em {Journal of ICT, Design, Engineering and Technological
+  Science}}, vol.~1, pp.~1--5, Jan. 2017.
+
+\bibitem{2017-mfi-actionrecognition}
+I.~Hwang, G.~Cha, , and S.~Oh, ``Multi-modal human action recognition using
+  deep neural networks fusing image and inertial sensor data,'' {\em {Expert
+  Systems with Applications}}, vol.~105, pp.~42--50, Sept. 2018.
+
+\bibitem{Grzezick-2017}
+G.~Rene, L.~J. Marius, R.~F. Moya, F.~G. A, F.~Sascha, and T.~H. Michael,
+  ``{Deep neural network based human activity recognition for the order picking
+  process},'' in {\em {International Workshop on Sensor-based Activity
+  Recognition (iWOAR)}}, ({Rostock, Germany}), Sept. 2017.
+
+\bibitem{base-paper}
+K.~Frankz, M.~J.~V. Nadalesz, P.~Robertsonz, and M.~Angermannz, ``{Reliable
+  Real-Time Recognition of Motion Related Human Activities Using MEMS Inertial
+  Sensors},'' in {\em {ION GNSS}}, ({Portland, Oregon, USA}), Sept. 2010.
+
+\bibitem{Daniel-2015}
+D.~R. P. C. P. A.-V. Nguyen-Dinh, ``{Limited-Memory Warping LCSS for Real-Time
+  Low-Power Pattern Recognition in Wireless Nodes},'' in {\em {European
+  Conference on Wireless Sensor Networks}}, ({Porto, Portugal}), Feb. 2015.
+
+\bibitem{Andreas-2014}
+A.~Bulling, A.~Bulling, and B.~Schiele, ``A tutorial on human activity
+  recognition using body-worn inertial sensors,'' {\em {ACM Computing Surveys
+  (CSUR)}}, vol.~46, pp.~1--33, Jan. 2014.
+
+\bibitem{Francisco-2014}
+F.~J. Ordonez, G.~Englebienne, P.~de~Toledo, T.~van Kasteren, A.~Sanchis, and
+  B.~Krose, ``In-home activity recognition: Bayesian inference for hidden
+  markov models,'' {\em {IEEE Pervasive Computing}}, vol.~13, pp.~67--75, Sept.
+  2014.
+
+\bibitem{su-2016}
+S.~Park, J.~Park, M.~Al-masni, M.~Al-antari, M.~Uddin, and T.-S. Kim, ``A depth
+  camera-based human activity recognition via deep learning recurrent neural
+  network for health and social care services,'' {\em {Procedia Computer
+  Science}}, vol.~100, pp.~78--84, 2016.
+
+\bibitem{alessandro-2016}
+A.~Manzi, F.~Cavallo, and P.~Dario, ``{A 3D Human Posture Approach for Activity
+  Recognition Based on Depth Camera},'' in {\em {European Conference on
+  Computer Vision}}, ({Amsterdam, The Netherlands}), Oct. 2016.
+
+\bibitem{Pascal-2010}
+P.~Vincent, H.~Larochelle, I.~Lajoie, Y.~Bengio, and P.-A. Manzagol, ``Stacked
+  denoising autoencoders: Learning useful representations in a deep network
+  with a local denoising criterion,'' {\em {The Journal of Machine Learning
+  Research}}, vol.~11, pp.~3371--3408, Jan. 2010.
+
+\bibitem{terry-2017}
+T.~T. Um, F.~M.~J. Pfister, D.~Pichler, S.~Endo, M.~Lang, S.~Hirche, and D.~K.
+  Urban~Fietzek, ``{Data Augmentation of Wearable Sensor Data for Parkinson's
+  Disease Monitoring using Convolutional Neural Networks},'' in {\em
+  {Proceedings of the 19th ACM International Conference on Multimodal
+  Interaction}}, ({Glasgow, United Kingdom}), Nov. 2017.
+
+\bibitem{xi-2015}
+X.~Zhang, Y.~Fu, S.~Jiang, L.~Sigal, and G.~Agam, ``{Learning from Synthetic
+  Data Using a Stacked Multichannel Autoencoder},'' in {\em {IEEE 14th
+  International Conference on Machine Learning and Applications (ICMLA)}},
+  ({Miami, FL, USA}), Dec. 2015.
+
+\bibitem{resnets-2015}
+K.~He, X.~Zhang, S.~Ren, and J.~Sun, ``{Deep Residual Learning for Image
+  Recognition},'' tech. rep., {Microsoft}, Dec. 2015.
+
+\bibitem{sensors-2018}
+F.~Li, K.~Shirahama, M.~A. Nisar, L.~Koping, and M.~Grzegorzek, ``Comparison of
+  feature learning methods for human activity recognition using wearable
+  sensors,'' {\em {Sensors}}, vol.~18, no.~2, p.~Article No. 679, 2018.
+
+\end{thebibliography}
