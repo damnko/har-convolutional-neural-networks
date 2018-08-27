@@ -8,8 +8,8 @@ Download the original dataset at  http://www.kn-s.dlr.de/activity/ and place it 
 
 ## Project structure
 
-* `001-data-exploration.ipynb` contains the code to convert the original dataset in Pandas dataframe and save the output in a `h5`
-* `002-ml.ipynb` contains the code to select the datasets and models to train. The model specifications are in the `./models` folder. The python version of this notebook is saved in `ml.py`
+* [001-data-exploration.ipynb](https://github.com/damnko/har-convolutional-neural-networks/blob/master/001-data-exploration.ipynb) contains the code to convert the original dataset in Pandas dataframe and save the output in a `h5`
+* [002-ml.ipynb](https://github.com/damnko/har-convolutional-neural-networks/blob/master/002-ml.ipynb) contains the code to select the datasets and models to train. The model specifications are in the `./models` folder. The python version of this notebook is saved in `ml.py`
 * `generate-plots.ipynb` generates `eps` plots from `¢sv` files exported from Tensorboard. Those files were used in the research paper `project-paper.pdf`
 * `ae-stacked.py` contains the code of the stacked denoising convolutional autoencoder
 * `ae-test.py` trains and tests a denoising autoencoder and outputs some reference plots for a qualitative assessment of its reconstruction ability
@@ -19,7 +19,7 @@ Download the original dataset at  http://www.kn-s.dlr.de/activity/ and place it 
 
 Training was done on a p2.xlarge AWS EC2 instance using "Deep Learning AMI (Amazon Linux) Version 13.0 - ami-095a0c6d4aed8643d" image.
 
-Following are some useful links to...
+Following are some useful links to get started:
 
 * https://machinelearningmastery.com/develop-evaluate-large-deep-learning-models-keras-amazon-web-services/
 * https://hackernoon.com/keras-with-gpu-on-amazon-ec2-a-step-by-step-instruction-4f90364e49ac
