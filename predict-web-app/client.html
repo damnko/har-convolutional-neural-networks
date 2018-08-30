@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>HAR - Prediction demo</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>HAR - Prediction demo</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Prediction scores</h3>
+                <div class="plots-wrap">
+                    <canvas id="barchart"></canvas>
+                </div>
+                <div class="details">
+                    Current prediction is
+                    <div class="alert alert-warning h2" role="alert" id="prediction">
+                        ...
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Accelerometer</h3>
+                        <div class="lineplot-wrap plots-wrap">
+                            <canvas id="accchart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Gyroscope</h3>
+                        <div class="lineplot-wrap plots-wrap">
+                            <canvas id="gyrochart"></canvas>
+                        </div>
+                        <div class="details">
+                            <div id="framerate-wrap"><span id="framerate">...</span>Hz</div>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+    <script src="vendor/Chart.min.js" charset="utf-8"></script>
+    <script src="plots.js" charset="utf-8"></script> 
+</body>
+
+</html>

@@ -1,16 +1,10 @@
 # generic imports
 import numpy as np
-import os
 import matplotlib.pyplot as plt
-from matplotlib import pyplot
 import seaborn as sn
-import h5py
 import time
 from subprocess import call
-import telegram_send
 from pathlib import Path
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import classification_report
 
 from keras import backend as K
 from keras.callbacks import TensorBoard, EarlyStopping, ModelCheckpoint
@@ -21,7 +15,6 @@ from keras.models import Model, Sequential, model_from_json
 sn.set(style="white", context="talk")
 
 from utils import terminate, outdir, load_dataset, show_stats, ohe_to_label, conf_matrix, export_model, f1
-from models import m_1d, m_1d2d, m_1d2d_01, m_3d
 
 # needed to work on GPU
 K.set_image_data_format('channels_first')
