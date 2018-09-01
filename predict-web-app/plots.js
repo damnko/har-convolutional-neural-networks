@@ -128,18 +128,18 @@ ws.onmessage = function (event) {
     accchart.update();
 
     // update gyro plot
-    gyrochart.data.datasets.forEach((dataset, i) => {
+    gyrochart.data.datasets.forEach((dataset, j) => {
         dataset.data.shift();
-        dataset.data.push(data.realtime[6+i]);
+        dataset.data.push(data.realtime[6+j]);
     });
     gyrochart.update();
 
     // update the scores, if a prediction has been made
     if (data.scores.length != 0){
-        chart.data.datasets.forEach((dataset) => {
+        barchart.data.datasets.forEach((dataset) => {
             dataset.data = data.scores[0];
         });
-        chart.update();
+        barchart.update();
         // update prediction string
         document.getElementById("prediction").textContent = data.prediction;
     }

@@ -44,7 +44,8 @@ print("Waiting on port:", port)
 
 async def watch(websocket, path):
     prediction_arr = []
-    start = time.time()
+    framerate_timer = time.time()
+    prediction_timer = time.time()
     samples = 0
     framerate = 0
     while True:
@@ -65,8 +66,10 @@ async def watch(websocket, path):
         prediction = ''
         scores = []
 
-        # do prediction only when 128 frames are captured, this was the value used during training
-        if len(prediction_arr) == 128:
+        # do a prediction every x seconds
+        predict_every = 0.9
+        # it time has passed, predict
+        if time.time()-prediction_timer > predict_every:
             # DATA PREPROCESSING
             # acc_x and acc_y were inverted to match the format used during training
             cols = ['time', 'id1', 'acc_y', 'acc_x', 'acc_z', 'id2', 'gyr_y', 'gyr_x', 'gyr_z', 'id3', 'magx', 'magy', 'magz']
@@ -82,7 +85,27 @@ async def watch(websocket, path):
             realdf_norm = (realdf-mean)/std
 
             # PREDICT
-            X = np.array(realdf_norm).reshape(1,1,128,6)
+            """
+                In situations where the framerate of the sensor is low (in my case it was 50Hz) I found useful to interpolate
+                the datapoints to reach 128 frames needed to do the prediction. This has worked better compared to using
+                padding. Eg. If the sensor framerate is 50Hz, the following linear interpolation will generate 128-50 frames
+                by interpolating the 50 frames captured during 1 second (if predict_every = 1) 
+            """
+            X = np.array(realdf_norm)
+            # how many samples have been stored until now
+            samples_stored = X.shape[0]
+            # values in which we want to compute the interpolation
+            # interpolate from 0 to the number of samples stored, in the end we want 128 frames
+            # because that's the value the model was trained with
+            x_target = np.linspace(0, samples_stored, 128)
+            # nr of original samples
+            x_input = np.arange(samples_stored)
+            # create the new input array by computing the interpolation along each of
+            # the 6 axis of the sensor values
+            # there might be more performant solutions, but this works well with small arrays
+            X = np.array([np.interp(x_target, x_input, X[:,i]) for i in range(6)]).T
+            X = X.reshape(1,1,128,6)
+
             scores = loaded_model.predict(X)
             print(np.round(scores, 3))
 
@@ -90,21 +113,20 @@ async def watch(websocket, path):
             prediction = class_conversion[activity_id]
             print(time.time(), prediction)
 
-            # keep last half of the array
-            arr = arr[63:]
             scores = scores.tolist()
-            # or empty the array
-            #arr = []
+            # empty the array
+            prediction_arr = []
+            # reset the timer for the next prediction
+            prediction_timer = time.time()
 
-        # calculate frequency, updated every second
-        end = time.time()
+        # calculate frequency, updated every 0.5s
         samples += 1
-        if end-start >= 1:
+        if time.time()-framerate_timer >= 0.5:
             #print('Framerate: {} samples-sec'.format(samples))
             framerate = samples
             samples = 0
             # reset start
-            start = time.time()
+            framerate_timer = time.time()
 
         # data to send to client
         client_data = {
