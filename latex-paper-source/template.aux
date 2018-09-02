@@ -60,38 +60,42 @@
 \newlabel{sec:learning_framework}{{V}{4}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-A}}CNN with only 1D temporal convolutions (\texttt  {m_1d})}{4}}
 \newlabel{sec:m_1d}{{\unhbox \voidb@x \hbox {V-A}}{4}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces \texttt  {m_1d} model representation. Each \texttt  {Conv} layer is made of (i) a convolution layer, (ii) a batch normalization and (iii) a ReLU activation. \texttt  {D.M.} stands for dropout and max pooling, \texttt  {D} stands for dropout. All dropout layers were set to 0.3 except the last one, set to 0.2.\relax }}{4}}
+\newlabel{m_1d_table}{{4}{4}}
 \citation{resnets-2015}
 \citation{resnets-2015}
-\citation{Pascal-2010}
-\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces \texttt  {m_1d} model representation. Each \texttt  {Conv} layer is made of (i) a convolution layer, (ii) a batch normalization and (iii) a ReLU activation. \texttt  {D.M.} stands for dropout and max pooling, \texttt  {D} stands for dropout. All dropout layers were set to 0.3 except the last one, set to 0.2.\relax }}{5}}
-\newlabel{m_1d_table}{{4}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-B}}CNN with 1D and 2D convolutions (\texttt  {m_1d2d_01})}{5}}
-\newlabel{sec:m_1d2d}{{\unhbox \voidb@x \hbox {V-B}}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-C}}CNN with skip connections (\texttt  {m_resnet})}{5}}
-\newlabel{sec:m_resnet}{{\unhbox \voidb@x \hbox {V-C}}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-B}}CNN with 2D convolutions (\texttt  {m_2d})}{5}}
+\newlabel{sec:m_2d}{{\unhbox \voidb@x \hbox {V-B}}{5}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces \texttt  {m_2d} model representation. Each \texttt  {Conv} layer is made of (i) a convolution layer, (ii) a batch normalization, (iii) a ReLU activation and (iv) a Dropout set to 0.2. \texttt  {pad} indicates that zero-padding is used, \texttt  {D} stands for dropout, \texttt  {MP} stands for max pooling.\relax }}{5}}
+\newlabel{m_2d_table}{{5}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-C}}CNN with 1D and 2D convolutions (\texttt  {m_1d2d_01})}{5}}
+\newlabel{sec:m_1d2d}{{\unhbox \voidb@x \hbox {V-C}}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-D}}CNN with skip connections (\texttt  {m_resnet})}{5}}
+\newlabel{sec:m_resnet}{{\unhbox \voidb@x \hbox {V-D}}{5}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Building blocks of a ResNet. Identity block is used when input and output dimension are the same, otherwise the convolution block is used. \texttt  {x_d} indicates the input \texttt  {x} of depth \texttt  {d}. \texttt  {| S} suffix indicates that a custom stride, different from $1 \times 1$ is applied to that convolution.\relax }}{5}}
 \newlabel{fig:img_resnet}{{3}{5}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-D}}Stacked denoising convolutional autoencoders (\texttt  {m_ae})}{5}}
-\newlabel{sec:m_ae}{{\unhbox \voidb@x \hbox {V-D}}{5}}
-\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces \texttt  {m_1d2d_01} model representation. Each \texttt  {Conv} layer is made of (i) a convolution layer and (ii) a ReLU activation, stride is set to (1x1). \texttt  {BN} stands for batch normalization. \texttt  {D} represents a dropout layer and the number beneath is the percentage of elements that will be set to zero. \texttt  {MP} stands for max pooling. \texttt  {Flat} concatenates all the feature map values of the previous layer. Dense is a fully connected layer. \texttt  {X@($Y \times Z$)} indicates the number of kernels, $X$, and the size of the kernel matrix, $Y \times Z$.\relax }}{6}}
-\newlabel{m_1d2d_table}{{5}{6}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces \texttt  {m_resnet} model representation. \texttt  {BN} stands for batch normalization, \texttt  {MP} for max pooling, \texttt  {S1-S4} represent the 4 stages of the identity-convolutional blocks. \texttt  {AP} stands for average pooling, pooling is done only along the temporal dimension.\relax }}{6}}
-\newlabel{m_resnet_table}{{6}{6}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Processing pipeline of a stacked denoising autoencoder. \texttt  {MP} stands for max pooling, \texttt  {UP} stands for up scaling, the opposite of a max pooling operation. Operations with \texttt  {D} prefix stand for de-convolution operations, which revert the effect of a convolution. Zero-padding indicates that padding was used in order to keep the same feature map size during the various convolution operations.\relax }}{6}}
-\newlabel{fig:img_ae}{{4}{6}}
+\citation{Pascal-2010}
+\citation{sensors-2018}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces \texttt  {m_1d2d_01} model representation. Each \texttt  {Conv} layer is made of (i) a convolution layer and (ii) a ReLU activation, stride is set to (1x1). \texttt  {BN} stands for batch normalization. \texttt  {D} represents a dropout layer and the number beneath is the percentage of elements that will be set to zero. \texttt  {MP} stands for max pooling. \texttt  {Flat} concatenates all the feature map values of the previous layer. Dense is a fully connected layer. \texttt  {X@($Y \times Z$)} indicates the number of kernels, $X$, and the size of the kernel matrix, $Y \times Z$.\relax }}{6}}
+\newlabel{m_1d2d_table}{{6}{6}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces \texttt  {m_resnet} model representation. \texttt  {BN} stands for batch normalization, \texttt  {MP} for max pooling, \texttt  {S1-S4} represent the 4 stages of the identity-convolutional blocks, the first block of every stage is convolutional, the rest are identity blocks. \texttt  {AP} stands for average pooling, pooling is done only along the temporal dimension.\relax }}{6}}
+\newlabel{m_resnet_table}{{7}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {V-E}}Stacked denoising autoencoders (\texttt  {m_ae})}{6}}
+\newlabel{sec:m_ae}{{\unhbox \voidb@x \hbox {V-E}}{6}}
 \@writefile{toc}{\contentsline {section}{\numberline {VI}Results}{6}}
 \newlabel{sec:results}{{VI}{6}}
-\citation{sensors-2018}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {VI-A}}Dataset results}{7}}
-\newlabel{sec:dataset_results}{{\unhbox \voidb@x \hbox {VI-A}}{7}}
-\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces F1-Scores of selected models with respect to three different datasets: (i) original \texttt  {std}, (ii) augmented with permutation and noise (\texttt  {aug}) and (iii) augmented with replacement of the transition states \texttt  {trans}. Red cells indicate a degradation of the classification accuracy with respect to the standard dataset, green cells indicate an improvement. Best overall result is highlighted in bold.\relax }}{7}}
-\newlabel{datasets_table}{{7}{7}}
-\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Mean F1-Score improvement for all models of Tab.\nobreakspace  {}7\hbox {} referred to the dataset augmented with permutation and noise \texttt  {aug} with respect to the standard dataset. Augmentation entity represents the number of observations added to specific classes.\relax }}{7}}
-\newlabel{datasets_improvement_table}{{8}{7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {VI-A}}Dataset results}{6}}
+\newlabel{sec:dataset_results}{{\unhbox \voidb@x \hbox {VI-A}}{6}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces F1-Scores of selected models with respect to three different datasets: (i) original (\texttt  {std}), (ii) augmented with permutation and rotation (\texttt  {aug}) and (iii) augmented with replacement of the transition states (\texttt  {trans}). Red cells indicate a degradation of the classification accuracy with respect to the standard dataset, green cells indicate an improvement. Best overall result is highlighted in bold.\relax }}{6}}
+\newlabel{datasets_table}{{8}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Processing pipeline of a stacked denoising autoencoder. \texttt  {MP} stands for max pooling, \texttt  {UP} stands for up scaling, the opposite of a max pooling operation. Operations with \texttt  {D} prefix stand for de-convolution operations, which revert the effect of a convolution. Zero-padding indicates that padding was used in convolution operations.\relax }}{7}}
+\newlabel{fig:img_ae}{{4}{7}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Mean F1-Score improvement for all models of Tab.\nobreakspace  {}8\hbox {} referred to the dataset augmented with permutation and rotation with respect to the standard dataset. Augmentation entity represents the number of observations added to specific classes.\relax }}{7}}
+\newlabel{datasets_improvement_table}{{9}{7}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {VI-B}}Autoencoder results}{7}}
 \newlabel{sec:autoencoder_results}{{\unhbox \voidb@x \hbox {VI-B}}{7}}
-\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces F1-Scores for various stacked autoencoders, \texttt  {long} prefix indicates the deeper version of the first autoencoder, as presented in Section\nobreakspace  {}\unhbox \voidb@x \hbox {V-D}\hbox {}, \texttt  {short} prefix indicates the shallower version. \texttt  {gaus} suffix indicates the model trained with inputs corrupted by gaussian noise, \texttt  {zero} instead indicates input corruption with zero-masking.\relax }}{7}}
-\newlabel{ae_comparison_table}{{9}{7}}
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces F1-Scores for various stacked autoencoders, \texttt  {long} prefix indicates the deeper version of the first autoencoder, as presented in Section\nobreakspace  {}\unhbox \voidb@x \hbox {V-E}\hbox {}, \texttt  {short} prefix indicates the shallower version. \texttt  {gaus} suffix indicates the model trained with inputs corrupted by gaussian noise, \texttt  {zero} instead indicates zero-masking corruption.\relax }}{7}}
+\newlabel{ae_comparison_table}{{10}{7}}
 \citation{base-paper}
 \citation{base-paper}
 \citation{base-paper}
@@ -99,18 +103,18 @@
 \citation{base-paper}
 \citation{nils-2016,Valarezo-2017,su-2016}
 \citation{nils-2016}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Reconstruction of some sample signals done by the first autoencoder of the \texttt  {ae-long} model. {\it  Noisy} is the noisy input used for training, {\it  Test} is the orinal uncorrupted signal, {\it  Rebuilt} is the reconstructed signal by the trained autoencoder.\relax }}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Reconstruction of some sample signals done by the first autoencoder of the \texttt  {ae-long} model. {\it  Noisy} is the noisy input used for training, {\it  Test} is the original uncorrupted signal, {\it  Rebuilt} is the reconstructed signal by the trained autoencoder.\relax }}{8}}
 \newlabel{fig:img_signal_reconstruction}{{5}{8}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\unhbox \voidb@x \hbox {VI-C}}Overall model comparison}{8}}
 \newlabel{sec:final_results}{{\unhbox \voidb@x \hbox {VI-C}}{8}}
-\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces F1-Scores of selected models.\relax }}{8}}
-\newlabel{final_models_table}{{10}{8}}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces F1-Scores of selected models.\relax }}{8}}
+\newlabel{final_models_table}{{11}{8}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces F1-Scores for training and validation set.\relax }}{8}}
 \newlabel{fig:img_f1_scores}{{6}{8}}
-\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces Confusion matrix of model \texttt  {m_1d2d_01_reg} referred to the \texttt  {aug} dataset\relax }}{8}}
-\newlabel{conf_matrix}{{11}{8}}
-\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces F1-Scores of best model of reference paper \cite  {base-paper} vs the best model of this paper along with the difference between the two approaches.\relax }}{8}}
-\newlabel{comparison_table}{{12}{8}}
+\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces Confusion matrix of model \texttt  {m_1d2d_01_reg} referred to the \texttt  {aug} dataset\relax }}{8}}
+\newlabel{conf_matrix}{{12}{8}}
+\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces F1-Scores of best model of reference paper \cite  {base-paper} vs the best model of this paper along with the difference between the two approaches.\relax }}{8}}
+\newlabel{comparison_table}{{13}{8}}
 \@writefile{toc}{\contentsline {section}{\numberline {VII}Concluding Remarks}{8}}
 \newlabel{sec:conclusions}{{VII}{8}}
 \bibdata{biblio}

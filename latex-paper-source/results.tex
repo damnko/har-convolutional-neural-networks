@@ -16,13 +16,13 @@ $$F_1 = 2 \cdot \frac{precision \cdot recall}{precision + recall}$$
 
 Where precision is the ratio of correctly predicted positive observations to the total predicted positive observations.
 $$Precision = \frac{TP}{TP+FP}$$
-Recall is the ratio of correctly predicted positive observations to the all observations in true positive class.
+Recall is the ratio of correctly predicted positive observations to all observations in true positive class.
 $$Recall = \frac{TP}{TP+FN}$$
 
 \subsection{Dataset results}
 \label{sec:dataset_results}
 
-To evaluate the dataset which offered the best classification accuracy, I tested the three datasets: (i) original, (ii) augmented with permutation and noise (\texttt{aug}) and (iii) augmented with replacement of the transition states (\texttt{trans}) with the following models: \texttt{m_1d}, \texttt{m_1d2d}, \texttt{m_1d2d_01}, \texttt{m_2d}. Refer to \secref{sec:learning_framework} for details on the model specifications and topology.\\
+To evaluate the dataset which offered the best classification accuracy, I tested three datasets: (i) original, (ii) augmented with permutation and noise (\texttt{aug}) and (iii) augmented with replacement of the transition states (\texttt{trans}) with the following models: \texttt{m_1d}, \texttt{m_1d2d}, \texttt{m_1d2d_01}, \texttt{m_2d}. Refer to \secref{sec:learning_framework} for details on the model specifications and topology.\\
 
 \tab{datasets_table} presents the \mbox{F1-Scores} for the aforementioned models and datasets.
 
@@ -44,11 +44,11 @@ To evaluate the dataset which offered the best classification accuracy, I tested
 \textbf{} & 0.945 & 0.836 & 0.932 & 0.954 & 0.851 & 0.945 & 0.961 & 0.878 & \textbf{0.967} & 0.954 & 0.849 & 0.955 \\ \hline
 \end{tabular}%
 }
-\caption{F1-Scores of selected models with respect to three different datasets: (i) original \texttt{std}, (ii) augmented with permutation and noise (\texttt{aug}) and (iii) augmented with replacement of the transition states \texttt{trans}. Red cells indicate a degradation of the classification accuracy with respect to the standard dataset, green cells indicate an improvement. Best overall result is highlighted in bold.}
+\caption{F1-Scores of selected models with respect to three different datasets: (i) original (\texttt{std}), (ii) augmented with permutation and rotation (\texttt{aug}) and (iii) augmented with replacement of the transition states (\texttt{trans}). Red cells indicate a degradation of the classification accuracy with respect to the standard dataset, green cells indicate an improvement. Best overall result is highlighted in bold.}
 \label{datasets_table}
 \end{table}
 
-Before evaluating the impact of the different datasets, it's interesting to note that, as \cite{sensors-2018} suggested, the model \texttt{m_1d2d_01} with a single batch normalization layer performs better compared to its similar version, with multiple batch normalization layers (\texttt{m_1d2d}). Overall model with the best \mbox{F1-Score} among the ones in \tab{datasets_table} is \texttt{m_1d2d_01}, featuring both 1D and 2D convolutions, which achieves a \mbox{F1-Score} value of 0.967. Lets now consider the impact of different datasets: \texttt{trans} variation offers no improvement over the standard dataset, while the \texttt{augm} version consistently improve the classification accuracy with respect to the standard dataset. The major improvements are proportional to the augmentation entity of the underrepresented classes, specifically as can be seen from \tab{datasets_improvement_table} {\it falling} benefits from the biggest average increase accuracy and corresponds to the least represented class. Classes which had no augmentation received negligible variations with respect to the standard dataset.
+Before evaluating the impact of the different datasets, it's interesting to note that, as \cite{sensors-2018} suggested, the model \texttt{m_1d2d_01} with a single batch normalization layer performs better compared to its similar version, with multiple batch normalization layers (\texttt{m_1d2d}). Overall the model with the best \mbox{F1-Score} among the ones in \tab{datasets_table} is \texttt{m_1d2d_01}, featuring both 1D and 2D convolutions, which achieves a \mbox{F1-Score} value of 0.967. Lets now consider the impact of different datasets: \texttt{trans} variation offers no improvement over the standard dataset, while the \texttt{augm} version consistently improve the classification accuracy with respect to the standard dataset. The improvements seem to be proportional to the augmentation entity of the classes, specifically, as can be seen from \tab{datasets_improvement_table}, {\it falling} benefits from the biggest average increase accuracy and corresponds to the least represented class. Classes which had no augmentation received small variations with respect to the standard dataset.
 
 \begin{table}[!htbp]
 \footnotesize
@@ -65,7 +65,7 @@ Before evaluating the impact of the different datasets, it's interesting to note
 \textbf{Standing} & 0 & 0 \\ \hline
 \textbf{Walking} & 0 & 0.004 \\ \hline
 \end{tabular}
-\caption{Mean F1-Score improvement for all models of \tab{datasets_table} referred to the dataset augmented with permutation and noise \texttt{aug} with respect to the standard dataset. Augmentation entity represents the number of observations added to specific classes.}
+\caption{Mean F1-Score improvement for all models of \tab{datasets_table} referred to the dataset augmented with permutation and rotation with respect to the standard dataset. Augmentation entity represents the number of observations added to specific classes.}
 \label{datasets_improvement_table}
 \end{table}
 
@@ -81,13 +81,13 @@ Autoencoders were trained using the \texttt{aug} dataset. As mentioned in \secre
 \item \texttt{ae-short-zero} which is the shallower version of model in \fig{fig:img_ae} and whose inputs are corrupted using zero masking
 \end{itemize}
 
-A qualitative assessment of the reconstruction accuracy of the autoencoder can be seen in \fig{fig:img_signal_reconstruction}. The model seems to be able to remove noise pretty effectively and the rebuilt signal overlaps most of the times with the original uncorrupted input. \\
+A qualitative assessment of the reconstruction accuracy of the first autoencoder can be seen in \fig{fig:img_signal_reconstruction}. The model seems to be able to remove noise effectively and the rebuilt signal overlaps most of the times with the original uncorrupted input. \\
 
 \begin{figure}[h]
 	\captionsetup{font=scriptsize, justification=centering}
     \centering
 	\includegraphics[width=\columnwidth]{ae-signals}
-    \caption{Reconstruction of some sample signals done by the first autoencoder of the \texttt{ae-long} model. {\it Noisy} is the noisy input used for training, {\it Test} is the orinal uncorrupted signal, {\it Rebuilt} is the reconstructed signal by the trained autoencoder.}
+    \caption{Reconstruction of some sample signals done by the first autoencoder of the \texttt{ae-long} model. {\it Noisy} is the noisy input used for training, {\it Test} is the original uncorrupted signal, {\it Rebuilt} is the reconstructed signal by the trained autoencoder.}
     \label{fig:img_signal_reconstruction}
 \end{figure}
 
@@ -112,11 +112,11 @@ A qualitative assessment of the reconstruction accuracy of the autoencoder can b
 \textbf{Mean} & \textbf{0.934} & 0.911 & 0.925 & 0.921 \\ \hline
 \end{tabular}%
 }
-\caption{F1-Scores for various stacked autoencoders, \texttt{long} prefix indicates the deeper version of the first autoencoder, as presented in \secref{sec:m_ae}, \texttt{short} prefix indicates the shallower version. \texttt{gaus} suffix indicates the model trained with inputs corrupted by gaussian noise, \texttt{zero} instead indicates input corruption with zero-masking.}
+\caption{F1-Scores for various stacked autoencoders, \texttt{long} prefix indicates the deeper version of the first autoencoder, as presented in \secref{sec:m_ae}, \texttt{short} prefix indicates the shallower version. \texttt{gaus} suffix indicates the model trained with inputs corrupted by gaussian noise, \texttt{zero} instead indicates zero-masking corruption.}
 \label{ae_comparison_table}
 \end{table}
 
-While the best \mbox{F1-Score} is achieved by \texttt{long-gaus} model with a value of 0.934, just 0.009 improve with respect to the shallower version, the shallow version was able to achieve a better classification accuracy on underrepresented classes. The deeper version was probably able to build a more complex representation of the input data for classes with a higher number of samples, thus offering an improved \mbox{F1-Score} on specific classes i.e. {\it running, sitting, standing, walking}. Lastly, the autoencoder with gaussian noise performed slightly better compared to the zero-masking one.
+While the best \mbox{F1-Score} is achieved by \texttt{long-gaus} model with a value of 0.934, with just a 0.009 improvement with respect to the shallower version, the latter was able to achieve a better classification accuracy on underrepresented classes. The deeper version was probably able to build a more complex representation of the input data for classes with a higher number of samples, thus offering an improved \mbox{F1-Score} on specific classes i.e. {\it running, sitting, standing, walking}. Lastly, the autoencoder with gaussian noise performed slightly better compared to the zero-masking one.
 
 \subsection{Overall model comparison}
 \label{sec:final_results}
@@ -135,7 +135,7 @@ The models were compared using the \texttt{aug} dataset and the \mbox{F1-scores}
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{r|c|c|c|c|c|c|c|}
 \cline{2-8}
- & \textbf{ae-long-gaus} & \textbf{m\_3d} & \textbf{m\_1d2d\_01} & \textbf{m\_1d2d\_01\_reg} & \textbf{m\_1d2d} & \textbf{m\_1d} & \textbf{m\_resnet} \\ \hline
+ & \textbf{ae-long-gaus} & \textbf{m\_2d} & \textbf{m\_1d2d\_01} & \textbf{m\_1d2d\_01\_reg} & \textbf{m\_1d2d} & \textbf{m\_1d} & \textbf{m\_resnet} \\ \hline
 \multicolumn{1}{|r|}{Falling} & 0.667 & 0.838 & 0.879 & \textbf{0.919} & 0.882 & 0.773 & 0.872 \\ \hline
 \multicolumn{1}{|r|}{Jumping} & 0.838 & 0.926 & 0.952 & \textbf{0.964} & 0.94 & 0.934 & 0.936 \\ \hline
 \multicolumn{1}{|r|}{Lying} & 0.985 & 0.991 & 0.992 & \textbf{0.993} & 0.976 & 0.989 & 0.992 \\ \hline
@@ -151,7 +151,7 @@ The models were compared using the \texttt{aug} dataset and the \mbox{F1-scores}
 \label{final_models_table}
 \end{table}
 
-Training curves of the experiments are depicted in \fig{fig:img_f1_scores}\\
+Training curves of the experiments are depicted in \fig{fig:img_f1_scores}
 
 \begin{figure}[h]
 	\captionsetup{font=scriptsize, justification=centering}
@@ -161,7 +161,7 @@ Training curves of the experiments are depicted in \fig{fig:img_f1_scores}\\
     \label{fig:img_f1_scores}
 \end{figure}
 
-The regularized version of model \texttt{m_1d2d_01} was able to remove the overfitting problem which is very visibile at approximately 20 epochs (\fig{fig:img_f1_scores}) and was thus be able to improve its classification accuracy. Batch size and the learning rate may be influencing the fluctuations in the validation accuracy plot of \fig{fig:img_f1_scores}.\\
+The regularized version of model \texttt{m_1d2d_01} was able to remove the overfitting problem which is noticeable at approximately 20 epochs (\fig{fig:img_f1_scores}) and thus improves its classification accuracy. Batch size and the learning rate may be influencing the fluctuations in the validation accuracy plot of \fig{fig:img_f1_scores}.\\
 Overall the best model achieves an \mbox{F1-Score} of 0.972 and the confusion matrix related to this model is presented in \tab{conf_matrix}
 
 \begin{table}[!htbp]

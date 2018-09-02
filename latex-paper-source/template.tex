@@ -54,9 +54,7 @@
 
 \title{Human Activity Recognition: a comparison of different convolutional neural network architectures}
 
-\author{Damnko$^\dag$
-\thanks{$^\dag$Name Surname: email-address}
-}
+\author{damnko}
 
 \IEEEoverridecommandlockouts
 
@@ -65,7 +63,7 @@
 \maketitle
 
 \begin{abstract}
-Human body motion analysis based on wearable inertial measurement units (IMUs) has been receiving a lot of attention in recent years. This is due to the significant role in both the scientific and industrial communities, with uses that span from mobile health systems to sports and human computer interaction. Human Activity Recognition (HAR) system with high recognition accuracy using only a single sensor is still a technical challenge. In this paper I explore both supervised and partially supervised approaches using convolutional, deep convolutional and denoising autoencoders approaches. The goal of this paper is to enhance on the classification accuracy of previous related works and decrease reliance on human engineered features. Since the raw IMU data is composed of time series, it is split using a running window approach and segments of roughly one second of data are fed to the neural networks. The above approaches are tested with two different variations of the original dataset, obtained with data augmentation approaches, to compensate the disparity in the representation of the different classes. The dataset contains measurements of one single IMU sensor positioned in the belt of different users performing 7 actions: \textit{\textbf{running, jumping, walking, falling, sitting, standing, lying}}. The results show that the best \mbox{CNN-based} HAR system achieved an \mbox{F1-Score} of 0.972. The worst represented class, falling, with just 4 minutes of recorded data, has an F1-Score of 0.919.
+Human body motion analysis based on wearable inertial measurement units (IMUs) has been receiving a lot of attention in recent years. This is due to the significant role in both scientific and industrial communities, with uses that span from mobile health systems to sports and human computer interaction. Human Activity Recognition (HAR) systems with high recognition accuracy using only a single sensor are still a technical challenge. In this paper I explore both supervised and partially supervised approaches using convolutional neural networks and denoising autoencoders approaches. Source code of the implementation is available online \footnote{https://github.com/damnko/har-convolutional-neural-networks}. The goal of this paper is to improve the classification accuracy of previous related works and decrease reliance on human engineered features. Since the raw IMU data is composed of time series, it is split using a running window approach and segments of roughly one second of data are fed to the neural networks. The above approaches are tested with two different variations of the original dataset, obtained with data augmentation approaches, to balance uneven class distribution. The dataset contains measurements of one single IMU sensor positioned in the belt of different users performing 7 actions: \textit{\textbf{running, jumping, walking, falling, sitting, standing, lying}}. The results show that the best 8 layer \mbox{CNN-based} HAR system achieved an \mbox{F1-Score} of 0.972. The worst represented class, falling, with just 2 minutes of recorded data, has an F1-Score of 0.919.
 \end{abstract}
 
 \IEEEkeywords

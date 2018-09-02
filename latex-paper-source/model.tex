@@ -13,8 +13,8 @@ Analysis of raw data coming from IMU sensors generally follows a \mbox{pipeline-
     \label{fig:img_pipeline}
 \end{figure}
 
-Time series data from the IMU sensors is converted into contiguous segments through a \mbox{sliding-window} approach, the output of this process are feature vectors which represent the input of the machine learning models. Once the dataset is created, it is augmented and divided in training and test set and finally normalized with respect to the mean and variance of the training set. The basic blocks of all the approaches mentioned in this paper are the ones which typically constitute a CNN. Each CNN contains at least one convolution layer along the temporal domain, one pooling layer and at least one fully connected layer prior to a softmax layer. In the convolutional layer, a mathematical operation (i.e. convolution) applies a set of local filters (or kernels) to obtain the most representative features. After the convolution operation, a bias is added to the result. Subsequent \mbox{max-pooling} operations look for the maximum within a region of specific width and height, this corresponds to a subsampling which introduces translational invariance to the system and improves its robustness. The fully connected layer is applied at the end, combining all features' maps obtained by the previous convolutional steps and using it as input for a 7 neurons softmax layer which computes the probability of each activity class. Regularization techniques such as dropout, early stopping and batch normalization are used at different stages of the neural network in order to avoid overfitting to the training data. \par
-Stacked denoising convolutional autoencoders (SDAs) are built on the same basic blocks mentioned above but follow a slightly different processing pipeline. \fig{fig:img_ae} represents the structure of a stacked autoencoder. The main building block is the autoencoder which can be separated into two parts, an encoder and a decoder. The encoder part consists of convolution layers and \mbox{fully-connected} layers and the decoder part consists of \mbox{fully-connected} layers and deconvolution layers. An ordinary autoencoder where the output $Y$ is of the same dimensionality as input $X$ can achieve perfect reconstruction simply by learning an identity mapping. This criterion alone is unlikely to lead to the discovery of a more useful representation ofthe input. The traditional approach to autoencoders uses a bottleneck to produce an \mbox{under-complete} representation, the resulting $Y$ can thus be seen as a lossy compressed representation of $X$. Since the reconstruction criterion alone is unable to guarantee the extraction of useful features, a more challenging and more interesting objective would be to clean a partially corrupted input (denoising). It's important to emphasize that the goal is not the task of denoising per se, rather denoising is investigated as a training criterion for learning to extract useful features that will constitute better higher level representation of the input \cite{Pascal-2010}. A key function of SDAs is unsupervised \mbox{pre-training}. Once each layer is \mbox{pre-trained} to conduct feature selection and extraction on the input from the preceding layer, a second stage of supervised \mbox{fine-tuning} can follow. The unsupervised \mbox{pre-training} of such architecture is done one layer at a time. Each layer is trained as a denoising autoencoder by minimizing the error in reconstructing its input. Once all layers are \mbox{pre-trained}, the network goes through a second stage of training known as supervised \mbox{fine-tuning} whose goal it to minimize prediction error on a supervised task. During this latter supervised phase only the dense layers are trained, while the rest is kept frozen.
+Time series data from the IMU sensors is converted into contiguous segments through a \mbox{sliding-window} approach, the output of this process are feature vectors which represent the input of the machine learning models. Once the dataset is created, it is augmented and divided in training and test set and finally normalized. The basic blocks of all the approaches mentioned in this paper are the ones which typically constitute a CNN. Each CNN contains at least one convolution layer along the temporal domain, one pooling layer and at least one fully connected layer prior to a softmax layer. In the convolutional layer, a mathematical operation (i.e. convolution) applies a set of local filters (or kernels) to obtain the most representative features. After the convolution operation, a bias is added to the result. Subsequent \mbox{max-pooling} operations look for the maximum within a region of specific width and height, this corresponds to a subsampling which introduces translational invariance to the system and improves its robustness. The fully connected layer is applied at the end, combining all features' maps obtained by the previous convolutional steps and using it as input for a 7 neurons softmax layer which computes the probability of each activity class. Regularization techniques such as dropout, early stopping and partially, batch normalization, are used at different stages of the neural network in order to avoid overfitting to the training data. \par
+Stacked denoising convolutional autoencoders (SDAs) are built on the same basic blocks mentioned above but follow a slightly different processing pipeline. \fig{fig:img_ae} represents the structure of a stacked autoencoder. The main building block is the autoencoder which can be separated into two parts, an encoder and a decoder. The encoder part consists of convolution layers and \mbox{fully-connected} layers and the decoder part consists of \mbox{fully-connected} layers and deconvolution layers. An ordinary autoencoder where the output $Y$ is of the same dimensionality as input $X$ can achieve perfect reconstruction simply by learning an identity mapping. This criterion alone is unlikely to lead to the discovery of a more useful representation of the input. The traditional approach to autoencoders uses a bottleneck to produce an \mbox{under-complete} representation, the resulting $Y$ can thus be seen as a lossy compressed representation of $X$. Since the reconstruction criterion alone is unable to guarantee the extraction of useful features, a more challenging and more interesting objective would be to clean a partially corrupted input (denoising). It's important to emphasize that the goal is not the task of denoising per se, rather denoising is investigated as a training criterion for learning to extract useful features that will constitute better higher level representation of the input \cite{Pascal-2010}. A key function of SDAs is unsupervised \mbox{pre-training}. Once each layer is \mbox{pre-trained} to conduct feature selection and extraction on the input from the preceding layer, a second stage of supervised \mbox{fine-tuning} can follow. The unsupervised \mbox{pre-training} of such architecture is done one layer at a time. Each layer is trained as a denoising autoencoder by minimizing the error in reconstructing its input. Once all layers are \mbox{pre-trained}, the network goes through a second stage of training known as supervised \mbox{fine-tuning} whose goal it to minimize prediction error on a supervised task. During this latter supervised phase only the dense layers are trained, while the rest is kept frozen.
 
 
 
@@ -24,7 +24,7 @@ Stacked denoising convolutional autoencoders (SDAs) are built on the same basic 
 \section{Signals and Features}
 \label{sec:signals_features}
 
-The dataset used in this paper is taken from \cite{base-paper} \footnote{The dataset is available at http://www.kn-s.dlr.de/activity/}. The IMU used provides the measurements in the sensor frame (SF) and the necessary attitude information in order to rotate them to the global frame. However, acceleration and angular velocity relative to the human body seem to be the most relevant information (and not relative to an earth-fixed reference frame or the sensor frame as the sensor can be placed on the body in any orientation and position) \cite{base-paper}.
+The dataset used in this paper is taken from \cite{base-paper} \footnote{The dataset is available at http://www.kn-s.dlr.de/activity/}. The IMU used provides the measurements in the sensor frame (SF) and the necessary attitude information in order to rotate them to the global frame (GF). However, acceleration and angular velocity relative to the human body seem to be the most relevant information (and not relative to an earth-fixed reference frame or the SF as the sensor can be placed on the body in any orientation and position) \cite{base-paper}.
 The three axes of the body frame are defined to intersect at the sensor location, the z axis is directed towards the head, while the other axis (x and y) form the plane orthogonal to this vertical axis. The sensor was placed on the belt of the test candidates either on the right or the left part of the body.
 As shown in \tab{activity_times_table} the final dataset contains over 5 hours of activity data. Class unbalance represents a major obstacle in the classification task. \\
 
@@ -44,10 +44,10 @@ As shown in \tab{activity_times_table} the final dataset contains over 5 hours o
 
 The original dataset contains the recordings of one IMU sensor:
 \begin{itemize}
-\item acceleration values along x-y-z axis
-\item gyroscope values along x-y-z axis
-\item attitude matrix to convert previous values from sensor to global frame
-\item magnetometer values along x-y-z axis
+\item acceleration values along x, y, z axis
+\item gyroscope values along x, y, z axis
+\item attitude matrix to convert previous values from sensor to GF
+\item magnetometer values along x, y, z axis
 \end{itemize}
 Each entry is either labeled with one of the activities among {\it running, jumping, walking, falling, sitting, standing, lying} or as a transition state between these base labels.
 
@@ -57,7 +57,7 @@ The current classification task goal is to predict one of the base labels. Detec
 
 \subsection{Framing}
 \label{sec:framing}
-After the initial preprocessing, next step is to segment the time series data into contiguous segments through a \mbox{sliding-window} approach (\fig{fig:img_framing}).\\
+After the initial preprocessing, the next step is to segment the \mbox{time-series} data into contiguous segments through a \mbox{sliding-window} approach (\fig{fig:img_framing}).\\
 
 \begin{figure}[h]
 	\captionsetup{font=scriptsize, justification=centering}
@@ -67,7 +67,7 @@ After the initial preprocessing, next step is to segment the time series data in
     \label{fig:img_framing}
 \end{figure}
 
-Each frame or window will be then fed to the machine learning algorithm. Since 1sec is the minimal duration of an activity \cite{base-paper}, I used this as a reference for the window length. The sensor used has a capture rate of 100Hz, which means 100 \mbox{samples/sec}, so using a window length of 128 frames is still within the minimal duration of an activity, moreover it's the same value employed by \cite{base-paper}. The window is moved along the temporal domain progressively extracting samples that will generate the training and testing dataset. The step size of the sliding window is of 64 frames, so each window has 50\% overlapping with the previous one. Although the information in these is highly redundant, this allows to generate a large number of samples, which is important for training a CNN. The label associated to each frame corresponds to the most frequent label of the 124 frames composing the window.
+Each frame or window will be then fed to the machine learning algorithm. Since 1sec is the minimal duration of an activity \cite{base-paper}, I used this as a reference for the window length. The sensor has a sampling rate of 100Hz, which means 100 \mbox{samples/sec}, so using a window length of 128 frames still captures the minimal duration of an activity, moreover it's the same value employed by \cite{base-paper}. The window is moved along the temporal domain progressively extracting samples that will generate the training and testing dataset. The step size of the sliding window is of 64 frames, so each window has 50\% overlapping with the previous one. Although this produces redundant data, it allows to generate a large number of samples, which is important for training a CNN. The label associated to each frame corresponds to the most frequent label of the 128 frames composing the window.
 After windowing, the dataset is divided into training and test set following a \mbox{80/20} division, maintaining the class proportions in both test and training, as shown in \tab{test_train_prop_table}. Training set is composed of 22836 samples, test set of 5709 samples.
 
 \begin{table}[!htbp]
@@ -89,12 +89,10 @@ After windowing, the dataset is divided into training and test set following a \
 \label{test_train_prop_table}
 \end{table}
 
-Finally, the input data is normalized before it is fed into the feature extractor. I computed mean and standard deviation for each axis of the considered sensor values (acceleration and gyroscope) and normalized the input data by subtracting mean and dividing by the standard deviation. Both training and test set were normalized using the values computed on the training set, by doing this, no bias or additional information in introduced in the test set.
-
 \subsection{Data augmentation}
 \label{sec:data_augmentation}
 Data augmentation is the practice of augmenting real IMU training data with simulated data for improving the recognition accuracy. Appropriate augmentation can substancially improve classification performance, especially in situations with small dataset size, noisy labels, and large \mbox{intra-class} variability \cite{terry-2017}. The latter being an especially known problem in HAR tasks \cite{Andreas-2014}. During the data augmentation process, the imbalance issue is tackled by creating a larger number of augmented samples for the under represented classes. The samples are \mbox{re-balanced} such that each class has at least 35\% percent of the largest number of samples per class in the training set.\\
-In the field of computer vision, synthetic data (\mbox{computer-generated} data that mimics real data) has been used used to augment or create training data for increasing classification performance \cite{xi-2015}.\\
+In the field of computer vision, synthetic data (\mbox{computer-generated} data that mimics real data) is used used to augment or create training data for increasing classification performance \cite{xi-2015}.\\
 As there exist many kinds of data augmentation techniques, the most promising from \cite{terry-2017} are implemented in this paper. Permutation is a simple way to randomly perturb the temporal location of \mbox{within-window} events. To perturb the location of the data in a single window, I first slice the data into 5 samelength segments, and randomly permute the segments to create a new window. Another factor that can introduce \mbox{label-invariant} variability of wearable sensor data are differences in sensor placement. For example, an \mbox{upside-down} placement of the sensor can invert the sign of the sensor readings without changing the labels. Therefore, augmentation by applying arbitrary rotations to the existing data can be used as a way of simulating different sensor placements. To achieve the \mbox{intra-class} balance mentioned before, the input vectors quantities summarised in \tab{augmentation_sizes_table} were generated by combining the two mentioned data augmentation approaches.
 
 \begin{table}[!htbp]
@@ -117,9 +115,9 @@ As there exist many kinds of data augmentation techniques, the most promising fr
 \label{augmentation_sizes_table}
 \end{table}
 
-Considering the conspicuous amount of data that was discarded when removing all the transients from the original dataset, specifically 1 hour of data, I tried an alternative data augmentation approach that leveraged this wealth of data. Transients are unlabeled frames that sit between two consecutive labeled activities. The idea of this approach is to assign specific labels to this transients according to the previous and following activity, specifically half of the frames of each transient was labeled as the preceding activity and the remaining half was labeled as the following activity.\\
+Considering the conspicuous amount of data that was discarded when removing all the transients from the original dataset, specifically 1 hour of data, I tried an alternative data augmentation approach that leveraged this wealth of data. Transients are unlabeled frames that sit between two consecutive labeled activities. The idea of this approach is to assign specific labels to this transients according to the previous and following activity, specifically half of the frames of each transient was labeled as the preceding activity and the remaining half was labeled as the following activity. As a result of this data augmentation phase, I obtained 3 datasets: the original non-augmented, the augmented through rotation and permutation (\texttt{aug}) and another one with transitions converted to labels (\texttt{trans}).\\
 
-As a result of this data augmentation phase, I obtained 3 datasets: the original non-augmented, the augmented through rotation and permutation (\texttt{aug}) and another one with transitions converted to labels (\texttt{trans}).
+Finally, the input data is normalized before it is fed into the feature extractor. I computed mean and standard deviation for each axis of the considered sensor values (acceleration and gyroscope) and normalized the input data by subtracting mean and dividing by the standard deviation. Both training and test set were normalized using the values computed on the training set, by doing this, no bias or additional information in introduced in the test set.
 
 
 \section{Learning Framework}
@@ -127,7 +125,7 @@ As a result of this data augmentation phase, I obtained 3 datasets: the original
 
 The neural networks here described are implemented in Keras, a lightweight library to build and train neural networks. The model training and classification are run on a {\it p2.xlarge} EC2 AWS instance which features Intel Xeon E5-2686 v4 (Broadwell) processor, 61GiB of ram and one NVIDIA K80 GPU. \\
 The following sections describe in detail the topology and the parameters of the three basic machine learning models used to solve the HAR task tackled in this paper.
-Sensor data are \mbox{re-organized} to be of shape \texttt{?x1x128x6} where 128 is the length of a sensor window, 6 is the number of sensor signals (acceleration x,y,z - gyroscope x,y,z), and 1 is the depth. This format (known as "channel first" in Keras) was used for compatibility reasons with the GPU backend of Keras. All models are using mini-batch gradient descent (64 samples per batch) with RMSProp update rule with $ learningrate=0.001$ and $\rho=0.9$.
+Sensor data are \mbox{re-organized} to be of shape \texttt{?x1x128x6} where 1 is the depth, 128 is the length of a sensor window and 6 is the number of sensor signals (acceleration x, y, z - gyroscope x, y, z). This format (known as "channel first" in Keras) was used for compatibility reasons with the GPU backend of Keras. All models are using mini-batch gradient descent (64 samples per batch) with RMSProp update rule with $ learningrate=0.001$ and $\rho=0.9$.
 
 \subsection{CNN with only 1D temporal convolutions (\texttt{m_1d})}
 \label{sec:m_1d}
@@ -150,15 +148,33 @@ This is the simplest of the architectures explored in this paper and involves on
 Each conv section is constituted by (i) a convolution layer that convolves the input or the previous layer's output along the temporal domain with a set of kernels to be learned; (ii) a batch normalization along the time domain, (iii)  a rectified linear unit (ReLU) layer that maps the output of the previous layer by the function $ relu(v) = max(v; 0) $. Dropout layers set the activation of \mbox{randomly-selected} units during training to zero with probability 0.3 for the first two occurennces and 0.2 in the last dropout layer and this is added as a form of regularization. Max pooling is used to further reduce the dimensionality and increase the spatial invariance of features. After the convolutions, all the feature maps values of the previous layer are concatenated using a \mbox{fully-connected} layer (indicated as {\it Flat} in \tab{m_1d_table}). Following is a \mbox{fully-connected} layer with 150 neurons and lastly another \mbox{fully-connected} layer with $C=7$ neurons, where $C$ is the number of output classes.
 The output of this layer is governed by the softmax function
 $$ \sigma(z)_j = \frac{e^{z_j}}{\sum_{k=1}^{\kappa} e^{z_k}} $$
-Where $ \kappa $ is the total number of classes (7 in this case) and $ z_j $ represents the j-th entry of the score vector $ z $.
+where $ \kappa $ is the total number of classes (7 in this case) and $ z_j $ represents the j-th entry of the score vector $ z $.
 This softmax function provides the posterior probability of the classification results. Then, an entropy cost function can be constituted based on the true labels of training instances and probabilistic outputs of softmax function
 $$ L(\theta) = -\frac{1}{n} \sum_{i=1}^{n} \sum_{j=1}^{m} y_{ij} log(p_{ij}) $$
-Where $i$ indexes samples, $j$ indexes classes and $y$ is the sample label (one-hot vector in multiclass classification), $p_{ij} \varepsilon (0,1)$ and $\sum_{j} p_{ij} = 1$ is the prediction for a sample.
-The network parameters are optimized by minimizing the cross-entropy loss function using mini-batch gradient descent with the RMSProp update rule. \\
+where $i$ indexes samples, $j$ indexes classes and $y$ is the sample label (one-hot vector in multiclass classification), $p_{ij} \varepsilon (0,1)$ and $\sum_{j} p_{ij} = 1$ is the prediction for a sample.
+The network parameters are optimized by minimizing the categorical cross-entropy loss function using mini-batch gradient descent with the RMSProp update rule. \\
+
+\subsection{CNN with 2D convolutions (\texttt{m_2d})}
+\label{sec:m_2d}
+This model follows the same architecture as \texttt{m_1d}, but uses only 2D convolutions. Model specification are found on \tab{m_2d_table}
+
+\begin{table}[!htbp]
+\captionsetup{font=scriptsize, justification=centering}
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Input} & \textbf{Conv} & \textbf{Conv} & \textbf{Conv{[}pad{]}} & \textbf{MP} & \textbf{Flat} & \textbf{Dense} & \textbf{D} & \textbf{Softmax} \\ \hline
+1@(6x128) & 20@(2x4) & 40@(2x2) & 60@(4x4) &  &  & 150 & 0.3 & 7 \\ \hline
+\end{tabular}%
+}
+\caption{\texttt{m_2d} model representation. Each \texttt{Conv} layer is made of (i) a convolution layer, (ii) a batch normalization, (iii) a ReLU activation and (iv) a Dropout set to 0.2. \texttt{pad} indicates that zero-padding is used, \texttt{D} stands for dropout, \texttt{MP} stands for max pooling.}
+\label{m_2d_table}
+\end{table}
 
 \subsection{CNN with 1D and 2D convolutions (\texttt{m_1d2d_01})}
 \label{sec:m_1d2d}
-This model extends the previous one by testing also the effect of cross correlating the signals of different sensors by using both 1D and 2D convolutions. The topology of this model is summarized in \tab{m_1d2d_table}
+This model extends the previous ones by testing also the effect of cross correlating the signals of different sensors by using both 1D and 2D convolutions. The topology of this model is summarized in \tab{m_1d2d_table}
 
 \begin{table*}[]
 \captionsetup{font=scriptsize, justification=centering}
@@ -179,7 +195,7 @@ Keeping \tab{m_1d2d_table} as a reference, the first 3 convolutional blocks oper
 I tested two other different variations of this model, specifically:
 \begin{itemize}
 \item \texttt{m_1d2d_01_reg} which features the same topology, but L2 regularization was applied to the last 2 dense layers, in an attempt to prevent overfitting. L2 regularization adds a penalty parameter to the loss function, the value of the multiplier was set to $\lambda=0.001$, setting it to 0 reverts to the case of no normalization.
-\item \texttt{m_1d2d} which instead of having a single batch normalization at the beginning, it has a batch normalization layer after each convolutional layer
+\item \texttt{m_1d2d} which instead of having a single batch normalization at the beginning, applies batch normalization layer after each convolution operation
 \end{itemize}
 
 \subsection{CNN with skip connections (\texttt{m_resnet})}
@@ -213,27 +229,27 @@ $\begin{bmatrix} 256@(1 \times 1) \\ 256@(3 \times 3) \\ 1024@(1 \times 1) \end{
 1x2 &  & 7 \\ \hline
 \end{tabular}%
 }
-\caption{\texttt{m_resnet} model representation. \texttt{BN} stands for batch normalization, \texttt{MP} for max pooling, \texttt{S1-S4} represent the 4 stages of the identity-convolutional blocks. \texttt{AP} stands for average pooling, pooling is done only along the temporal dimension.}
+\caption{\texttt{m_resnet} model representation. \texttt{BN} stands for batch normalization, \texttt{MP} for max pooling, \texttt{S1-S4} represent the 4 stages of the identity-convolutional blocks, the first block of every stage is convolutional, the rest are identity blocks. \texttt{AP} stands for average pooling, pooling is done only along the temporal dimension.}
 \label{m_resnet_table}
 \end{table*}
 
-\subsection{Stacked denoising convolutional autoencoders (\texttt{m_ae})}
+\subsection{Stacked denoising autoencoders (\texttt{m_ae})}
 \label{sec:m_ae}
-The main building block of this model is the autoencoder, an architecture composed of an encoder and a decoder. In this setup, the autoencoders are composed only of convolutional layers. The topology of this setup is represented in \fig{fig:img_ae}. Two autoencoders are stacked together, followed by a \mbox{fully-connected} layer for the final classification.\\
+The main building block of this model is the autoencoder, an architecture composed of an encoder and a decoder. In this setup the autoencoders are composed only of convolutional layers and its topology is represented in \fig{fig:img_ae}. Lastly, the encoders are stacked together, followed by a \mbox{fully-connected} layer for the final classification.\\
 
 \begin{figure*}[ht]
 	\captionsetup{font=scriptsize, justification=centering}
     \centering
 	\includegraphics[width=\textwidth]{ae}
-    \caption{Processing pipeline of a stacked denoising autoencoder. \texttt{MP} stands for max pooling, \texttt{UP} stands for up scaling, the opposite of a max pooling operation. Operations with \texttt{D} prefix stand for de-convolution operations, which revert the effect of a convolution. Zero-padding indicates that padding was used in order to keep the same feature map size during the various convolution operations.}
+    \caption{Processing pipeline of a stacked denoising autoencoder. \texttt{MP} stands for max pooling, \texttt{UP} stands for up scaling, the opposite of a max pooling operation. Operations with \texttt{D} prefix stand for de-convolution operations, which revert the effect of a convolution. Zero-padding indicates that padding was used in convolution operations.}
     \label{fig:img_ae}
 \end{figure*}
 
-Training this kind of models follow a \mbox{two-step} procedure: (i) a corrupted input is used for the initial \mbox{denoising-training} of each individual layer, so that it may learn useful feature extractors. Once the mapping has been learnt, the output of the encoder part (with noisy data given as input) is used as input of the following autoencoder. Noise is always applied to the input of all the autoencoders during training. I tested with two different types of noise, as suggested by \cite{Pascal-2010}:
+Training this kind of models follow a \mbox{two-step} procedure: (i) a corrupted input is used for the initial \mbox{denoising-training} of each individual layer, so that it may learn useful feature extractors. Once the mapping has been learnt, the output of the encoder part (with denoised data given as input) is used as input of the following autoencoder. Noise is always applied to the input of all the autoencoders during training. I tested with two different types of noise, as suggested by \cite{Pascal-2010}:
 
 \begin{itemize}
-\item Additive isotropic gaussian noise
-\item Masking noise, where a fraction of the elements of the input (chosen at random for each example) is forced to 0. This drastically corrupt a fraction of the elements while leaving the others untouched
+\item Additive isotropic gaussian noise ($\mu = 0$, $\sigma=0.15$)
+\item Masking noise, where a fraction of the elements of the input (chosen at random for each example) is set to 0
 \end{itemize}
 
 I also experimented with two different variations of the first autoencoder: this first one being represented in \fig{fig:img_ae} (\texttt{ae-long}) and another one that featured a shallower first autoencoder (\texttt{ae-short}), without an intermediate convolutional layer.
@@ -241,4 +257,4 @@ I also experimented with two different variations of the first autoencoder: this
 The network parameters of the autoencoders are optimized by minimizing the mean squared error loss function:
 $$MSE = \frac{1}{n} \sum_{i=1}^{n}(y_i - \hat{y_i})^2$$
 
-Once a stack of encoders has thus been trained, its output representation can be used as input to a \mbox{stand-alone} supervised learning algorithm. (ii) An output layer is added on top of the stack and the parameters of the whole system are \mbox{fine-tuned} to minimize the error in predicting the supervised target by performing gradient descent. It's important to note that during the \mbox{fine-tuning} phase the uncorrupted inputs are used and the layers of the stacked autoencoders are frozen i.e. no training is performed on these layers, only the weights on the output layers are updated.
+Once a stack of encoders has been trained, its output representation can be used as input to a \mbox{stand-alone} supervised learning algorithm. (ii) An output layer is added on top of the stack and the parameters of the whole system are \mbox{fine-tuned} to minimize the error in predicting the supervised target by performing gradient descent. It's important to note that during this \mbox{fine-tuning} phase the uncorrupted inputs are used and the layers of the stacked autoencoders are frozen i.e. no training is performed on these layers.
