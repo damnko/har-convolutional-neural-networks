@@ -119,9 +119,9 @@ async def watch(websocket, path):
             # reset the timer for the next prediction
             prediction_timer = time.time()
 
-        # calculate frequency, updated every 0.5s
+        # calculate frequency, updated every 1s
         samples += 1
-        if time.time()-framerate_timer >= 0.5:
+        if time.time()-framerate_timer >= 1:
             #print('Framerate: {} samples-sec'.format(samples))
             framerate = samples
             samples = 0
