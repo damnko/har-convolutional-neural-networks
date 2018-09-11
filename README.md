@@ -4,6 +4,10 @@
 
 Research project to explore different convolutional neural networks architectures that can be used for classification purposes in HAR tasks. The implementation is done in Keras.
 
+<p align="center">
+    [[https://github.com/damnko/har-convolutional-neural-networks/blob/master/predict-web-app/preview.gif|alt=HAR prediction demo]]
+</p>
+
 ## Prerequisites
 Download the original dataset at  http://www.kn-s.dlr.de/activity/ and place it in the `dataset-orig` folder
 
